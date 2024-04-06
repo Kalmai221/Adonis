@@ -145,8 +145,8 @@ settings.LocalDatastore = false					 -- If this is turned on, a mock DataStore w
 settings.Storage = game:GetService("ServerStorage")  -- Where things like tools are stored
 settings.RecursiveTools = false						 -- Whether tools that are included in sub-containers within settings.Storage will be available via the :give command (useful if your tools are organized into multiple folders)
 
-settings.Theme = "Default"				-- UI theme;
-settings.MobileTheme = "Mobilius"		-- Theme to use on mobile devices; Some UI elements are disabled
+settings.Theme = "BasicAdmin"				-- UI theme;
+settings.MobileTheme = "BasicAdmin"		-- Theme to use on mobile devices; Some UI elements are disabled
 
 																																																																																				--[[
 	**HOW TO ADD ADMINISTRATORS:**
