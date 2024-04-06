@@ -164,7 +164,7 @@ return function(Vargs, env)
 
 		CommsPanel = {
 			Prefix = Settings.PlayerPrefix;
-			Commands = {"notifications", "comms", "nc"};
+			Commands = {"notifications", "comms", "nc", "commspanel"};
 			Args = {};
 			Description = "Opens the communications panel, showing you all the Adonis messages you have recieved in a timeline";
 			AdminLevel = "Players";
@@ -254,9 +254,8 @@ return function(Vargs, env)
 			Function = function(plr: Player, args: {string})
 				local mats = {
 					"Brick", "Cobblestone", "Concrete", "CorrodedMetal", "DiamondPlate", "Fabric", "Foil", "ForceField", "Glass", "Granite",
-					"Grass", "Ice", "Marble", "Metal", "Neon", "Pebble", "Plastic", "Slate", "Sand", "SmoothPlastic", "Wood", "WoodPlanks"
-					--, "Rock", "Glacier", "Snow", "Sandstone", "Mud", "Basalt", "Ground", "CrackedLava", "Asphalt", "LeafyGrass", "Salt", "Limestone", "Pavement"
-					--Beta Features Materials
+					"Grass", "Ice", "Marble", "Metal", "Neon", "Pebble", "Plastic", "Slate", "Sand", "SmoothPlastic", "Wood", "WoodPlanks",
+					"Rock", "Glacier", "Snow", "Sandstone", "Mud", "Basalt", "Ground", "CrackedLava", "Asphalt", "LeafyGrass", "Salt", "Limestone", "Pavement"
 				}
 				for i, mat in mats do
 					mats[i] = {Text = mat; Desc = `Enum value: {Enum.Material[mat].Value}`}
@@ -298,26 +297,15 @@ return function(Vargs, env)
 			end
 		};
 
-		Ping = {
+		ClientPerfStats = {
 			Prefix = Settings.PlayerPrefix;
-			Commands = {"ping", "latency"};
+			Commands = {"cstats", "clientperformance", "clientperformanceststs", "clientstats", "ping", "latency", "fps","framespersecond"};
 			Args = {};
-			Description = "Shows you your current ping (latency)";
+			Description = "Shows you your client performance stats";
 			AdminLevel = "Players";
 			Function = function(plr: Player, args: {string})
-				Remote.MakeGui(plr, "Ping")
+				Remote.MakeGui(plr, "PerfStats")
 			end
-		};
-		
-		Fps = {
-			Prefix = Settings.PlayerPrefix;
-			Commands = {"fps","framespersecond"};
-			Args = {};
-			Description = "Shows your current fps (frames per second)";
-			AdminLevel = "Players";
-			Function = function(plr: Player, args: {string})
-				Remote.MakeGui(plr,"FPS")
-			end,
 		};
 
 		ServerSpeed = {
@@ -444,6 +432,7 @@ return function(Vargs, env)
 			NoStudio = true; -- Commands which cannot be used in Roblox Studio (e.g. commands which use TeleportService)
 			AdminLevel = "Players";
 			Function = function(plr: Player, args: {string})
+				assert(#(service.Players:GetPlayers()) < service.Players.MaxPlayers or not Settings.DisableRejoinAtMaxPlayers, "Cannot rejoin while server is at max capacity.")
 				service.TeleportService:TeleportAsync(game.PlaceId, {plr}, service.New("TeleportOptions", {
 					ServerInstanceId = game.JobId
 				}))
@@ -465,6 +454,7 @@ return function(Vargs, env)
 				if UserId then
 					local success, found, _, placeId, jobId = pcall(service.TeleportService.GetPlayerPlaceInstanceAsync, service.TeleportService, UserId)
 					if success then
+						assert(jobId ~= service.DataModel.JobId, "You're already in this server!")
 						if found and placeId and jobId then
 							service.TeleportService:TeleportAsync(placeId, {plr}, service.New("TeleportOptions", {
 								ServerInstanceId = jobId
@@ -650,7 +640,7 @@ return function(Vargs, env)
 
 		ScriptInfo = {
 			Prefix = Settings.PlayerPrefix;
-			Commands = {"info", "about", "userpanel"};
+			Commands = {"info", "about", "userpanel", "script", "scriptinfo"};
 			Args = {};
 			Description = "Shows info about the admin system (Adonis)";
 			AdminLevel = "Players";
