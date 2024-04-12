@@ -79,7 +79,7 @@ return function(Vargs, GetEnv)
 			["everyone"] = {
 				Match = "everyone";
 				Absolute = true;
-				Pefix = true;
+				Prefix = true;
 				Function = function(...)
 					return Functions.PlayerFinders.all.Function(...)
 				end
@@ -1314,9 +1314,11 @@ return function(Vargs, GetEnv)
 		end;
 
 		CleanWorkspace = function()
-			for _, v in workspace:GetChildren() do
-				if v:IsA("BackpackItem") or v:IsA("Accoutrement") then
-					v:Destroy()
+			if workspace:FindFirstChildOfClass("BackpackItem") or workspace:FindFirstChildOfClass("Accoutrement") then
+				for _, v in workspace:GetChildren() do
+					if v:IsA("BackpackItem") or v:IsA("Accoutrement") then
+						v:Destroy()
+					end
 				end
 			end
 		end;
