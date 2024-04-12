@@ -275,28 +275,6 @@ return function(Vargs, env)
 			end
 		};
 
-		Donate = {
-			Prefix = Settings.PlayerPrefix;
-			Commands = {"donate", "change", "changecape", "donorperks"};
-			Args = {};
-			Description = "Opens the donation panel";
-			AdminLevel = "Players";
-			Function = function(plr: Player, args: {string})
-				Remote.MakeGui(plr, "UserPanel", {Tab = "Donate"})
-			end
-		};
-
-		GetScript = {
-			Prefix = Settings.PlayerPrefix;
-			Commands = {"getscript", "getadonis"};
-			Args = {};
-			Description = "Prompts you to take a copy of the script";
-			AdminLevel = "Players";
-			Function = function(plr: Player, args: {string})
-				service.MarketPlace:PromptPurchase(plr, Core.LoaderID)
-			end
-		};
-
 		ClientPerfStats = {
 			Prefix = Settings.PlayerPrefix;
 			Commands = {"cstats", "clientperformance", "clientperformanceststs", "clientstats", "ping", "latency", "fps","framespersecond"};
@@ -316,34 +294,6 @@ return function(Vargs, env)
 			AdminLevel = "Players";
 			Function = function(plr: Player, args: {string})
 				Functions.Hint(`The server FPS is {math.round(service.Workspace:GetRealPhysicsFPS())}`, {plr})
-			end
-		};
-
-		Donors = {
-			Prefix = Settings.PlayerPrefix;
-			Commands = {"donors", "donorlist", "donatorlist", "donators"};
-			Args = {"autoupdate? (default: true)"};
-			Description = "Shows a list of Adonis donators who are currently in the server";
-			AdminLevel = "Players";
-			ListUpdater = function(plr: Player)
-				local tab = {}
-				for _, v in service.Players:GetPlayers() do
-					if not Variables.IncognitoPlayers[v] and Admin.CheckDonor(v) then
-						table.insert(tab, service.FormatPlayer(v))
-					end
-				end
-				return tab
-			end;
-			Function = function(plr: Player, args: {string})
-				Remote.RemoveGui(plr, "DonorList")
-				Remote.MakeGui(plr, "List", {
-					Name = "DonorList";
-					Title = "Donors In-Game";
-					Icon = server.MatIcons["People alt"];
-					Tab = Logs.ListUpdaters.Donors(plr);
-					Update = "Donors";
-					AutoUpdate = if not args[1] or string.lower(args[1]) == "true" or string.lower(args[1]) == "yes" then 2 else nil;
-				})
 			end
 		};
 
@@ -638,17 +588,6 @@ return function(Vargs, env)
 			end
 		};
 
-		ScriptInfo = {
-			Prefix = Settings.PlayerPrefix;
-			Commands = {"info", "about", "userpanel", "script", "scriptinfo"};
-			Args = {};
-			Description = "Shows info about the admin system (Adonis)";
-			AdminLevel = "Players";
-			Function = function(plr: Player, args: {string})
-				Remote.MakeGui(plr, "UserPanel", {Tab = "Info";})
-			end
-		};
-
 		Aliases = {
 			Prefix = Settings.PlayerPrefix;
 			Commands = {"aliases", "addalias", "removealias", "newalias"};
@@ -757,17 +696,6 @@ return function(Vargs, env)
 				for _, v: Player in service.GetPlayers(plr, args[1]) do
 					Remote.LoadCode(plr, `service.GuiService:InspectPlayerFromUserId({v.UserId})`)
 				end
-			end
-		};
-
-		DevConsole = {
-			Prefix = Settings.PlayerPrefix;
-			Commands = {"devconsole", "developerconsole", "opendevconsole"};
-			Args = {};
-			Description = "Opens the Roblox developer console";
-			AdminLevel = "Players";
-			Function = function(plr: Player, args: {string})
-				Remote.Send(plr, "Function", "SetCore", "DevConsoleVisible", true)
 			end
 		};
 
